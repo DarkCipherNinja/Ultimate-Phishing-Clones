@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instagram Login Clone</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      background-size: 200% 200%;
+      animation: gradientMove 8s ease infinite;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .language {
+      position: absolute;
+      top: 15px;
+      font-size: 14px;
+      color: #f1f1f1;
+      cursor: pointer;
+    }
+
+    .language-popup {
+      position: absolute;
+      top: 45px;
+      background-color: rgba(0,0,0,0.9);
+      border: 1px solid #666;
+      border-radius: 8px;
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      z-index: 10;
+      width: 160px;
+    }
+
+    .language-popup div {
+      color: #eee;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .language-popup div:hover {
+      background-color: #555;
+    }
+
+    .logo {
+      width: 60px;
+      margin: 40px 0 20px;
+    }
+
+    .login-box {
+      width: 90%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .login-box input {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .login-box input::placeholder {
+      color: #ccc;
+    }
+
+    .login-box button {
+      padding: 12px;
+      background-color: #0095f6;
+      border: none;
+      border-radius: 999px;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .forgot {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .forgot a {
+      color: #ddd;
+      text-decoration: none;
+    }
+
+    .create {
+      margin-top: 30px;
+      width: 90%;
+      max-width: 320px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+      color: #fff;
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    .meta-logo {
+      width: 60px;
+      margin-top: 20px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div class="language" onclick="toggleLanguagePopup()" id="currentLang">English (UK)</div>
+  <div class="language-popup" id="languagePopup">
+    <div onclick="setLanguage('en')">English (UK)</div>
+    <div onclick="setLanguage('es')">Español</div>
+    <div onclick="setLanguage('fr')">Français</div>
+    <div onclick="setLanguage('de')">Deutsch</div>
+    <div onclick="setLanguage('hi')">हिन्दी</div>
+    <div onclick="setLanguage('pt')">Português</div>
+    <div onclick="setLanguage('ru')">Русский</div>
+    <div onclick="setLanguage('zh')">中文</div>
+    <div onclick="setLanguage('ja')">日本語</div>
+    <div onclick="setLanguage('it')">Italiano</div>
+    <div onclick="setLanguage('ko')">한국어</div>
+    <div onclick="setLanguage('tr')">Türkçe</div>
+  </div>
+
+  <img src="https://static.cdninstagram.com/rsrc.php/v4/yq/r/_7cAFFbc4Pr.png" alt="Instagram Logo" class="logo"/>
+
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Username, email address or mobile number" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="loginBtn">Log in</button>
+  </div>
+
+  <div class="forgot">
+    <a href="#" id="forgotText">Forgotten password?</a>
+  </div>
+
+  <div class="create" id="createBtn">Create new account</div>
+
+  <img src="https://static.cdninstagram.com/rsrc.php/v4/y3/r/aAfprBW6TIe.png" alt="Meta Logo" class="meta-logo" />
+
+  <script>
+    const popup = document.getElementById('languagePopup');
+    const langBtn = document.getElementById('currentLang');
+
+    const translations = {
+      en: {
+        lang: "English (UK)",
+        username: "Username, email address or mobile number",
+        password: "Password",
+        login: "Log in",
+        forgot: "Forgotten password?",
+        create: "Create new account"
+      },
+      es: {
+        lang: "Español",
+        username: "Nombre de usuario, correo o teléfono",
+        password: "Contraseña",
+        login: "Iniciar sesión",
+        forgot: "¿Has olvidado la contraseña?",
+        create: "Crear cuenta nueva"
+      },
+      fr: {
+        lang: "Français",
+        username: "Nom d'utilisateur, e-mail ou numéro",
+        password: "Mot de passe",
+        login: "Se connecter",
+        forgot: "Mot de passe oublié ?",
+        create: "Créer un compte"
+      },
+      de: {
+        lang: "Deutsch",
+        username: "Benutzername, E-Mail oder Handynummer",
+        password: "Passwort",
+        login: "Anmelden",
+        forgot: "Passwort vergessen?",
+        create: "Neues Konto erstellen"
+      },
+      hi: {
+        lang: "हिन्दी",
+        username: "यूज़रनेम, ईमेल या मोबाइल नंबर",
+        password: "पासवर्ड",
+        login: "लॉग इन करें",
+        forgot: "पासवर्ड भूल गए?",
+        create: "नया खाता बनाएं"
+      },
+      pt: {
+        lang: "Português",
+        username: "Nome de usuário, e-mail ou telefone",
+        password: "Senha",
+        login: "Entrar",
+        forgot: "Esqueceu a senha?",
+        create: "Criar nova conta"
+      },
+      ru: {
+        lang: "Русский",
+        username: "Имя пользователя, эл. почта или телефон",
+        password: "Пароль",
+        login: "Войти",
+        forgot: "Забыли пароль?",
+        create: "Создать аккаунт"
+      },
+      zh: {
+        lang: "中文",
+        username: "用户名、邮箱或手机号",
+        password: "密码",
+        login: "登录",
+        forgot: "忘记密码？",
+        create: "创建新帐户"
+      },
+      ja: {
+        lang: "日本語",
+        username: "ユーザー名、メールアドレス、電話番号",
+        password: "パスワード",
+        login: "ログイン",
+        forgot: "パスワードを忘れた場合",
+        create: "新しいアカウントを作成"
+      },
+      it: {
+        lang: "Italiano",
+        username: "Nome utente, email o numero",
+        password: "Password",
+        login: "Accedi",
+        forgot: "Hai dimenticato la password?",
+        create: "Crea un nuovo account"
+      },
+      ko: {
+        lang: "한국어",
+        username: "사용자 이름, 이메일 또는 휴대폰 번호",
+        password: "비밀번호",
+        login: "로그인",
+        forgot: "비밀번호를 잊으셨나요?",
+        create: "새 계정 만들기"
+      },
+      tr: {
+        lang: "Türkçe",
+        username: "Kullanıcı adı, e-posta veya telefon",
+        password: "Şifre",
+        login: "Giriş yap",
+        forgot: "Şifreni mi unuttun?",
+        create: "Yeni hesap oluştur"
+      }
+    };
+
+    function toggleLanguagePopup() {
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function setLanguage(lang) {
+      const t = translations[lang];
+      langBtn.innerText = t.lang;
+      document.getElementById('username').placeholder = t.username;
+      document.getElementById('password').placeholder = t.password;
+      document.getElementById('loginBtn').innerText = t.login;
+      document.getElementById('forgotText').innerText = t.forgot;
+      document.getElementById('createBtn').innerText = t.create;
+      popup.style.display = 'none';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!popup.contains(e.target) && e.target !== langBtn) {
+        popup.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
+
